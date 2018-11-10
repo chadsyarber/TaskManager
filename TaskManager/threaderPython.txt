@@ -1,0 +1,129 @@
+__author__ = 'yarbc009'
+import pymysql as spInquil
+import time
+import threading
+import datetime
+import os
+import subprocess
+from dtss.snapi.clients import RestClient
+from dtss.snapi.resources import Incident, Group
+
+# snFlake = RestClient('disney.service-now.com/api', None, '_SNAPI_DTOC_TASKMANAGER', 'https', '4nuR81sg3sTayqhF7top8vtYjamgeE4b', True)
+
+class blizzard(threading.Thread):
+    def __init__(self, task, db):
+        threading.Thread.__init__(self)
+        self.task = task
+        self.db = db
+
+    def run(self):
+        whiteout = []
+        cold = []
+        while True:
+            whiteout = gettask()
+            if whiteout == self.db:
+                snowBallsFight(self.task)
+            else:
+                del cold[:]
+                for coats in whiteout:
+                    cold.append((TaskItems(coats[0], coats[1], coats[2], coats[3], coats[4],
+                                           coats[5], coats[6], coats[7], coats[8], coats[9],
+                                           coats[10], coats[11])))
+                for hats in cold:
+                    self.changeTask(hats)
+
+                snowBallsFight(self.task)
+
+    def changeTask(self, atask):
+        self.task = atask
+
+
+def snowBallsFight(task):
+    numDate = datetime.date.weekday(datetime.date.today())
+    sleepFor = (task.repeatInterval).total_seconds()
+    today = datetime.datetime.now()
+    sendAfter = datetime.datetime(today.year, today.month, today.day, hour=0, minute=0, second=0) + task.beginAfter
+    if task.weekday == 1 and numDate < 5:
+        if datetime.datetime.now() >= sendAfter or task.beginAfter == datetime.timedelta(0):
+            #sendSnowBall(task)
+            nineHourTest(task)
+            time.sleep(sleepFor)
+    elif task.weekday == 0:
+        if datetime.datetime.now() >= sendAfter or task.beginAfter == datetime.timedelta(0):
+            #sendSnowBall(task)
+            nineHourTest(task)
+            time.sleep(sleepFor)
+    else:
+        time.sleep(sleepFor)
+
+def sendSnowBall(task):
+    """
+    :param task: a task item
+    :return: void
+    Sends one task to ServiceNow
+    """
+    try:
+        subprocess.call([
+            "C:\\Users\\yarbc009\\Documents\\Visual Studio 2012\\Projects\\IncidentSending\\IncidentSending\\bin\\Release\\IncidentSending",
+            task.assignmentGroup, task.category, task.subcategory, task.shortDescription, task.rules])
+
+    except():
+        print("Is Broke when sending")
+
+
+def nineHourTest(task):
+    print(task.toString())
+
+
+def gettask():
+    bishop = []
+    try:
+        conn = spInquil.connect(host='localhost', port=3306, user='root', passwd='root', db='taskmanager')
+        cmd = conn.cursor()
+        cmd.execute("SELECT * FROM tasks")
+        for response in cmd:
+            bishop.append(response)
+        cmd.close()
+        conn.close()
+    except():
+        print("DB is broke")
+    return bishop
+
+
+class TaskItems:
+    def __init__(self, taskNum, assignmentGroup, callerId, category, impact, shortDescription, subcategory, urgency,
+                 repeatInterval, rules, beginAfter, weekday):
+        self.taskNum = int(taskNum)
+        self.assignmentGroup = assignmentGroup
+        self.callerId = callerId
+        self.category = category
+        self.impact = int(impact)
+        self.shortDescription = shortDescription
+        self.subcategory = subcategory
+        self.urgency = int(urgency)
+        self.repeatInterval = repeatInterval
+        self.rules = rules
+        self.beginAfter = beginAfter
+        self.weekday = weekday
+
+    def toString(self):
+        return self.taskNum, self.assignmentGroup, self.callerId, self.category, self.impact, self.shortDescription, self.subcategory, self.urgency, self.repeatInterval, self.rules, self.beginAfter, self.weekday
+
+# Main
+questItems = []
+holyHandGrenade = []
+somecallmeTim = []
+
+quests = gettask()
+
+if quests != holyHandGrenade:
+    holyHandGrenade = quests
+    del questItems[:]
+    for yourQuest in quests:
+        questItems.append((TaskItems(yourQuest[0], yourQuest[1], yourQuest[2], yourQuest[3], yourQuest[4],
+                                     yourQuest[5], yourQuest[6], yourQuest[7], yourQuest[8], yourQuest[9],
+                                     yourQuest[10], yourQuest[11])))
+    for theItems in questItems:
+        spells = blizzard(theItems, quests)
+        spells.start()
+        somecallmeTim.append(spells)

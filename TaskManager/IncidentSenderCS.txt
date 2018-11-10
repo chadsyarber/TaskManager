@@ -1,0 +1,68 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using System.Data;
+
+namespace IncidentSending
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /*
+             * Create Incident to send to Snow
+             * */
+            string url = @"https://snapi.corp.dig.com/api/now/v1/table/incident";
+            StringBuilder sb = new StringBuilder();
+
+            System.Net.NetworkCredential creds = new NetworkCredential("_SNAPI_DTOC_TOOLS", "C$=Bj6QfKMn4%nn");
+            string encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes("_SNAPI_DTOC_TOOLS" + ":" + "C$=Bj6QfKMn4%nn"));
+
+            BuildIncident inc = new BuildIncident();
+
+            inc.Group = args[0];//assignment group
+            inc.Caller = "_SNAPI_DTOC_TOOLS";
+            inc.Category = args[1];//category
+            inc.Subcategory = args[2];//subcategory
+            inc.CI = "dtocdummy";
+            inc.ShortDescription = args[3];//Short description
+            inc.Description = args[4];//description rules
+            inc.Impact = 4;
+            inc.Urgency = 4;
+
+            /*
+             * Send to snow
+             * */
+            try
+            {
+                using (var client = new WebClient())
+                {
+                    var json = Newtonsoft.Json.JsonConvert.SerializeObject(inc);
+                    client.Credentials = creds;
+                    client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                    client.Headers.Add(HttpRequestHeader.Accept, "application/json");
+                    client.Headers.Add(HttpRequestHeader.Authorization, "Basic " + encoded);
+                    string reply = client.UploadString(new Uri(url), "POST", json);
+
+                    //dynamic d = JObject.Parse(reply);
+                    //dynamic content = d["result"];
+
+                    //Console.WriteLine(content["number"]);
+
+                    client.Dispose();
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("Error communicating with SNOW: " + ex.Message);
+            }
+            
+
+        }
+    }
+}

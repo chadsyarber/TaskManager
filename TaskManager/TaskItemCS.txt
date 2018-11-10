@@ -1,0 +1,158 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Task2._0
+{
+    class TaskItem
+    {
+        /*
+         * For the incidents
+         * */
+        private string assignment_group;//requie all below, Set in Controller
+        private string caller_id;//Set in Contorller
+        private string category;//drop down
+        private int impact;//All will be 4
+        private string short_description;//Infor pane
+        private string subcategory;//drop down
+        private int urgency;//All will be 4
+        /*
+         * For the DB 
+         * */
+        private TimeSpan repeatInterval;//require
+        private int id;//set by functions
+        private string rules; // optional
+        //private TimeSpan beginAfter;
+        private TimeSpan beginAfter;
+
+        public TaskItem(string assignment_group, string caller_id, string category, int impact, string short_description, string subcategory, int urgency, TimeSpan repeatInterval, string rules, TimeSpan begin)
+        {
+            this.assignment_group = assignment_group;
+            this.caller_id = caller_id;
+            this.category = category;
+            this.impact = impact;
+            this.short_description = short_description;
+            this.subcategory = subcategory;
+            this.urgency = urgency;
+            this.repeatInterval = repeatInterval;
+            this.rules = rules;
+            this.beginAfter = begin;
+            
+        }
+        public void setAssignment_group(string assignment_group)
+        {
+            this.assignment_group = assignment_group;
+        }
+        public string getAssignment_group()
+        {
+            return assignment_group;
+        }
+        public void setCaller_id(string caller_id)
+        {
+            this.caller_id = caller_id;
+        }
+        public string getCaller_id()
+        {
+            return caller_id;
+        }
+        public void setCategory(string category)
+        {
+            this.category = category;
+        }
+        public string getCategory()
+        {
+            return category;
+        }
+        public void setImpact(int impact)
+        {
+            this.impact = impact;
+        }
+        public int getImpact()
+        {
+            return impact;
+        }
+        public void setShort_description(string short_description)
+        {
+            this.short_description = short_description;
+        }
+        public string getShort_description()
+        {
+            return short_description;
+        }
+        public void setSubcategory(string subcategory)
+        {
+            this.subcategory = subcategory;
+        }
+        public string getSubcategory()
+        {
+            return subcategory;
+        }
+        public void setUrgency(int urgency)
+        {
+            this.urgency = urgency;
+        }
+        public int getUrgency()
+        {
+            return urgency;
+        }
+        public void setRepeatInterval(TimeSpan repeatInterval)
+        {
+            this.repeatInterval = repeatInterval;
+        }
+        public TimeSpan getRepeatInterval()
+        {
+            return repeatInterval;
+        }
+        private void setId(int id)
+        {
+            this.id = id;
+        }
+        public int getId()
+        {
+            return id;
+        }
+        public void setRules(string rules)
+        {
+            this.rules = rules;
+        }
+        public string getRules()
+        {
+            return rules;
+        }
+        public void setBeginAfter(TimeSpan after)
+        {
+            this.beginAfter = after;
+        }
+        public TimeSpan getBeginAfter()
+        {
+            return beginAfter;
+        }
+        public TimeSpan getBeginAfter(bool dt)
+        {
+            return beginAfter;
+        }
+       
+
+        override public string ToString()
+        {
+            StringBuilder rtnString = new StringBuilder();
+            rtnString.Append("Task id: " + getId() + "\n");
+            rtnString.Append("Assignment_group: " + getAssignment_group() + "\n");
+            rtnString.Append("Caller_id: " + getCaller_id() + "\n");
+            rtnString.Append("Category: " + getCategory() + "\n");
+            rtnString.Append("Impact: " + getImpact() + "\n");
+            rtnString.Append("Short_description: " + getShort_description() + "\n");
+            rtnString.Append("Subcategory: " + getSubcategory() + "\n");
+            rtnString.Append("Urgency: " + getUrgency() + "\n");
+            rtnString.Append("Interval: " + getRepeatInterval() + "\n");
+            rtnString.Append("Rules: " + getRules() + "\n");
+            rtnString.Append("Begin After: " + getBeginAfter());
+            
+            return rtnString.ToString();
+        }
+
+
+    }
+}

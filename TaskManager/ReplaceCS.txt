@@ -1,0 +1,299 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Task2._0
+{
+    public partial class Replace : Form
+    {
+        private string description { get; set; }
+        private string rules { get; set; }
+        private string category { get; set; }
+        private string subcategory { get; set; }
+        private TimeSpan timeInterval { get; set; }
+        private TimeSpan beginTime { get; set; }
+        
+
+        private Controller control = new Controller();
+
+        private List<string> display = new List<string>();
+
+        public Replace()
+        {
+            InitializeComponent();
+        }
+        
+        private void radioButtons2(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                comboBox4.Enabled = true;
+                comboBox5.Enabled = false;
+                comboBox5.SelectedIndex = -1;
+                comboBox6.Enabled = false;
+                comboBox6.SelectedIndex = -1;
+            }
+            else if (radioButton2.Checked)
+            {
+                comboBox5.Enabled = true;
+                comboBox4.SelectedIndex = -1;
+                comboBox4.Enabled = false;
+                comboBox6.SelectedIndex = -1;
+                comboBox6.Enabled = false;
+            }
+            else if (radioButton3.Checked)
+            {
+                comboBox6.Enabled = true;
+                comboBox5.SelectedIndex = -1;
+                comboBox5.Enabled = false;
+                comboBox4.SelectedIndex = -1;
+                comboBox4.Enabled = false;
+            }
+            else if (radioButton4.Checked)
+            {
+                comboBox4.Enabled = false;
+                comboBox4.SelectedIndex = -1;
+                comboBox5.Enabled = false;
+                comboBox5.SelectedIndex = -1;
+                comboBox6.Enabled = false;
+                comboBox6.SelectedIndex = -1;
+            }
+        }
+        private void setDisplay(List<TaskItem> con)
+        {
+            if (display.Count == 0)
+            {
+
+                foreach (TaskItem blob in con)
+                {
+                    display.Add(blob.getShort_description());
+                }
+            }
+            else
+            {
+                display = new List<string>();
+                foreach (TaskItem blob in con)
+                {
+                    display.Add(blob.getShort_description());
+                }
+            }
+        }
+        private List<string> getDisplay()
+        {
+            return display;
+        }
+        private void setBoxes_IndexChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < control.retrieveTaks().Count(); i++)
+            {
+                if (comboBox2.SelectedItem.ToString() == control.retrieveTaks().ElementAt(i).getShort_description())
+                {
+                    textBox1.Text = control.retrieveTaks().ElementAt(i).getShort_description();
+                    textBox3.Text = control.retrieveTaks().ElementAt(i).getRules();
+                    textBox4.Text = control.retrieveTaks().ElementAt(i).getCategory();
+                    textBox5.Text = control.retrieveTaks().ElementAt(i).getSubcategory();
+                    textBox2.Text = control.retrieveTaks().ElementAt(i).getRepeatInterval().ToString();
+                    checkBox1.Enabled = true;
+                    numericUpDown1.Value = control.retrieveTaks().ElementAt(i).getBeginAfter().Hours;
+                    numericUpDown2.Value = control.retrieveTaks().ElementAt(i).getBeginAfter().Minutes;
+                    
+                }
+            }
+        }
+        private void checkBox1_Checked(object sender, EventArgs e)
+        {
+            //Turn on!
+            comboBox1.Enabled = true;
+            comboBox3.Enabled = true;
+            label7.Enabled = true;
+            label8.Enabled = true;
+            label9.Enabled = true;
+            label10.Enabled = true;
+            radioButton1.Enabled = true;
+            radioButton2.Enabled = true;
+            radioButton3.Enabled = true;
+            radioButton4.Enabled = true;
+            textBox6.Enabled = true;
+            textBox7.Enabled = true;
+            button1.Enabled = true;
+            button2.Enabled = true;
+            checkBox2.Enabled = true;
+            //Turn Off!
+            comboBox2.Enabled = false;
+            textBox1.Enabled = false;
+            textBox2.Enabled = false;
+            textBox3.Enabled = false;
+            textBox4.Enabled = false;
+            textBox5.Enabled = false;
+            checkBox1.Enabled = false;
+            
+        }
+        /*
+         * Clear button below
+         * */
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //Turn On
+            checkBox1.Checked = false;
+            comboBox2.Enabled = true;
+            label1.Enabled = true;
+            label2.Enabled = true;
+            label3.Enabled = true;
+            label4.Enabled = true;
+            label5.Enabled = true;
+            label6.Enabled = true;
+            textBox1.Enabled = true;
+            textBox2.Enabled = true;
+            textBox3.Enabled = true;
+            textBox4.Enabled = true;
+            textBox5.Enabled = true;
+            checkBox1.Enabled = false;
+            checkBox2.Enabled = false;
+            checkBox2.Checked = false;
+            
+            
+            //Turn Off
+            comboBox1.Enabled = false;
+            comboBox1.SelectedIndex = -1;
+            comboBox2.Enabled = true;
+            comboBox3.Enabled = false;
+            comboBox3.SelectedIndex = -1;
+            comboBox4.Enabled = false;
+            comboBox4.SelectedIndex = -1;
+            comboBox5.Enabled = false;
+            comboBox5.SelectedIndex = -1;
+            comboBox6.Enabled = false;
+            comboBox6.SelectedIndex = -1;
+            label13.Enabled = false;
+            label14.Enabled = false;
+            label7.Enabled = false;
+            label8.Enabled = false;
+            label9.Enabled = false;
+            label10.Enabled = false;
+            numericUpDown3.Enabled = false;
+            numericUpDown3.Value = 0;
+            numericUpDown4.Value = 0;
+            numericUpDown4.Enabled = false;
+            radioButton1.Enabled = false;
+            radioButton2.Enabled = false;
+            radioButton3.Enabled = false;
+            radioButton4.Enabled = false;
+            textBox6.Enabled = false;
+            textBox6.Text = "";
+            button1.Enabled = false;
+            button2.Enabled = false;
+            textBox7.Text = "";
+            textBox7.Enabled = false;
+        }
+
+        private void comboBox2_Items(object sender, EventArgs e)
+        {
+            setDisplay(control.retrieveTaks());
+            comboBox2.DataSource = getDisplay();
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //When clicked it will activate the replace function in Controller
+                //Pass in a task item
+                if (comboBox4.SelectedIndex != -1)
+                {
+                    timeInterval = new TimeSpan(0, Convert.ToInt32(comboBox4.Text), 0);
+                }
+                else if (comboBox5.SelectedIndex != -1)
+                {
+                    timeInterval = new TimeSpan(Convert.ToInt32(comboBox5.Text), 0, 0);
+                }
+                else if (comboBox6.SelectedIndex != -1)
+                {
+                    timeInterval = new TimeSpan(Convert.ToInt32(comboBox6.Text), 0, 0, 0);
+                }
+                else if (radioButton4.Checked)
+                {
+                    timeInterval = new TimeSpan(7, 0, 0, 0);
+                }
+                string des = comboBox2.SelectedItem.ToString();
+                beginTime = new TimeSpan(Convert.ToInt32(numericUpDown3.Value), Convert.ToInt32(numericUpDown4.Value), 0);
+                TaskItem replacement = new TaskItem("ops-global-dtoc", "_SNAPI_DTOC_TASKMANAGER", comboBox1.SelectedItem.ToString(), 4, textBox7.Text, comboBox3.SelectedItem.ToString(), 4, timeInterval, textBox6.Text, beginTime);
+                Controller toReplace = new Controller(replacement);
+                toReplace.replaceTask(replacement, des);
+                DialogResult result = MessageBox.Show("Task Replaced, Press OK!", "REPLACE SUCCESS!", MessageBoxButtons.OK);
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    //Disable edit area, enable choice area
+                    //Choice area
+                    checkBox1.Checked = false;
+                    comboBox2.Enabled = true;
+                    label1.Enabled = true;
+                    label2.Enabled = true;
+                    label3.Enabled = true;
+                    label4.Enabled = true;
+                    label5.Enabled = true;
+                    label6.Enabled = true;
+                    textBox1.Enabled = true;
+                    textBox2.Enabled = true;
+                    textBox3.Enabled = true;
+                    textBox4.Enabled = true;
+                    textBox5.Enabled = true;
+                    checkBox1.Enabled = false;
+                    checkBox2.Checked = false;
+                    checkBox2.Enabled = false;
+                    //Turn Off
+                    //Edit area
+                    comboBox1.Enabled = false;
+                    comboBox1.SelectedIndex = -1;
+                    comboBox2.Enabled = true;
+                    comboBox3.Enabled = false;
+                    comboBox3.SelectedIndex = -1;
+                    comboBox4.Enabled = false;
+                    comboBox4.SelectedIndex = -1;
+                    comboBox5.Enabled = false;
+                    comboBox5.SelectedIndex = -1;
+                    comboBox6.Enabled = false;
+                    comboBox6.SelectedIndex = -1;
+                    numericUpDown3.Enabled = false;
+                    numericUpDown4.Enabled = false;
+                    label13.Enabled = false;
+                    label14.Enabled = false;
+                    label7.Enabled = false;
+                    label8.Enabled = false;
+                    label9.Enabled = false;
+                    label10.Enabled = false;
+                    radioButton1.Enabled = false;
+                    radioButton2.Enabled = false;
+                    radioButton3.Enabled = false;
+                    radioButton4.Enabled = false;
+                    textBox6.Enabled = false;
+                    textBox6.Text = "";
+                    button1.Enabled = false;
+                    button2.Enabled = false;
+                    textBox7.Text = "";
+                    textBox7.Enabled = false;
+                }
+            }
+            catch (NullReferenceException nre)
+            {
+                MessageBox.Show("All fields are required!\n" + nre.Message);
+            }
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            comboBox2.DataSource = new List<string>();
+        }
+        private void checkBox2_Checked(object sender, EventArgs e)
+        {
+            label13.Enabled = true;
+            label14.Enabled = true;
+            numericUpDown3.Enabled = true;
+            numericUpDown4.Enabled = true;
+        }
+   
+    }
+}
